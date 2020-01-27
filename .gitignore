@@ -21,3 +21,7 @@
 /yarn-error.log
 
 .byebug_history
+
+
+# To prevent conflicts between Spring and Git when using Guard
+/spring/*.pid
