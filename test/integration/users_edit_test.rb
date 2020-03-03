@@ -15,5 +15,10 @@ class UsersEditTest < ActionDispatch::IntegrationTest
                                               password_confirmation: "bar" } }
 
     assert_template 'users/edit'
+    assert_select 'div#error_explanation>ul' do |elements|
+      elements.each do |element|
+        assert_select element, "li", 4
+      end
+    end
   end
 end
