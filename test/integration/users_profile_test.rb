@@ -5,6 +5,7 @@ class UsersProfileTest < ActionDispatch::IntegrationTest
 
   def setup
     @user = users(:michael)
+    @another_user = users(:archer)
   end
 
   test "profile display" do
@@ -18,5 +19,19 @@ class UsersProfileTest < ActionDispatch::IntegrationTest
     @user.microposts.paginate(page: 1).each do |micropost|
       assert_match micropost.content, response.body
     end
+  end
+
+  test "stats display in homepage" do
+    log_in_as(@user)
+    get root_path
+    assert_template '/'
+    assert_select 'div[class=?]', 'stats'
+  end
+
+  test "stats display in profile" do
+    log_in_as(@user)
+    get user_path(@another_user)
+    assert_template 'users/show'
+    assert_select 'div[class=?]', 'stats'
   end
 end
